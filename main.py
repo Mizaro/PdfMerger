@@ -27,11 +27,11 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='Process some integers.')
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-f', "--folder", dest="pdfs_folder", type=str,
-                    help='folder of pdf files, sorted')
+                    help='folder of pdf files')
     group.add_argument('-s', "--pdfs", type=str, nargs="+",
-                    help='folder of pdf files, sorted')
-    parser.add_argument('result_file', type=str,
-                    help='path to result of merge')
+                    help='list of pdf files')
+    parser.add_argument('output', type=str,
+                    help='path to store the merged file')
     args = parser.parse_args()
 
     def dir_dir(name):
@@ -41,14 +41,14 @@ def parse_arguments():
     if args.pdfs_folder is not None:
         pdfs_folder = os.path.abspath(args.pdfs_folder)
         if not os.path.isdir(pdfs_folder):
-            raise Exception("folder must be a folder")
+            parser.error("folder must be a folder")
         else:
             pdfs = dir_dir(pdfs_folder)
     else:
         pdfs = [os.path.abspath(x) for x in args.pdfs]
     if not any(pdfs):
-        raise Exception("None pdf files have been found.")
-    return pdfs, args.result_file
+        parser.error("None pdf files have been found.")
+    return pdfs, args.output
 
 if __name__ == '__main__':
     main(*parse_arguments())
