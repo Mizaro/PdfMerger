@@ -1,4 +1,4 @@
-future==0.16.0
+future==0.18.3
 pefile==2016.3.28
 PyInstaller==3.2
 PyPDF2==1.26.0
